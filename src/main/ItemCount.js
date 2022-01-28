@@ -29,7 +29,7 @@ const ItemCount = ({ datas, func }) => {
   };
 
   return (
-    <>
+    <div>
       <h1>CounterApp</h1>
       <h2>El stock disponible es de {stock}</h2>
       <h2 onChange={func(counter)}> {counter} </h2>
@@ -38,7 +38,7 @@ const ItemCount = ({ datas, func }) => {
       <button onClick={handleReset}>Reset</button>
       <button onClick={handleSubstract}>-1</button>
       <button onClick={handleSubstract2}>-10</button>
-    </>
+    </div>
   );
 };
 

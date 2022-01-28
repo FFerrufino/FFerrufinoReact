@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const Item = ({ datos, id }) => {
   return (
-    <li>
+    <li className="listaprod">
       {datos} <NavLink to={"/item/" + id}>Ver detalles</NavLink>
     </li>
   );

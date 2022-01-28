@@ -1,6 +1,7 @@
 import ItemCount from "./ItemCount";
 import { useState, useContext } from "react";
 import { context } from "../CartContext";
+import { toast } from "react-toastify";
 
 const ItemDetail = ({ data }) => {
   let producto;
@@ -14,6 +15,7 @@ const ItemDetail = ({ data }) => {
 
   const enviarProducto = () => {
     resultado.agregarItem(prod, cantidad);
+    toast.success("Se ha realizado un cambio en el carrito.");
   };
 
   const [cantidad, setCantidad] = useState(0);

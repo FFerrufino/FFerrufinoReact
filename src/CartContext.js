@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { db } from "./Firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 export const context = createContext();
 
@@ -10,6 +11,9 @@ const CartContext = ({ children }) => {
   const valorInicial = [];
   const [carrito, setCarrito] = useState(valorInicial);
   const [precio, setPrecio] = useState(0);
+  const [loginv, setLoginv] = useState(
+    JSON.parse(localStorage.getItem("token"))
+  );
 
   const agregarItem = (e, cantidad) => {
     if (
@@ -57,21 +61,29 @@ const CartContext = ({ children }) => {
 
     let cantidadSustraida = ecantidad * price;
     setPrecio(precio - cantidadSustraida);
+    toast.success("Se ha realizado un cambio en el carrito.");
   };
 
   const borrarCarrito = () => {
     setCarrito(valorInicial);
   };
-  
-  const mandarCarrito = async (e) => {
-    console.log(e)
-    let carritoObj = {carrito, e}
-    console.log(carritoObj)
-    const carritoCollection = collection(db, "pedidos")
-    const referencia = await addDoc(carritoCollection, carritoObj)
-    console.log(referencia.id)
-  }
 
+  const mandarCarrito = async (e) => {
+    console.log(e);
+    let carritoObj = { carrito, e };
+    console.log(carritoObj);
+    const carritoCollection = collection(db, "pedidos");
+    const referencia = await addDoc(carritoCollection, carritoObj);
+    console.log(referencia.id);
+  };
+  const mandarUsuario = async (e) => {
+    console.log(e);
+    let usuario = { e };
+    console.log(usuario);
+    const carritoCollection = collection(db, "usuarios");
+    const referencia = await addDoc(carritoCollection, usuario);
+    console.log(referencia.id);
+  };
   const isInCart = (e) => {
     if (
       carrito.some(function (el) {
@@ -83,10 +95,19 @@ const CartContext = ({ children }) => {
       console.log("false");
     }
   };
-
+  const cerrarsesion = () => {
+    setLoginv(false);
+    localStorage.setItem("token", false);
+    localStorage.clear();
+    toast.success("Se ha cerrado la sesión.");
+  };
   const metodos = {
     carrito,
     precio,
+    loginv,
+    cerrarsesion,
+    setLoginv,
+    mandarUsuario,
     agregarItem,
     sacarItem,
     borrarCarrito,
